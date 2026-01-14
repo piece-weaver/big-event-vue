@@ -4,9 +4,11 @@ import { ElMessage } from 'element-plus'
 import { userPasswordUpdateService } from '@/api/user.js'
 import useUserInfoStore from '@/stores/userInfo.js'
 import { useTokenStore } from '@/stores/token.js'
+import { useRouter } from 'vue-router'
 
 const userInfoStore = useUserInfoStore()
 const tokenStore = useTokenStore()
+const router = useRouter()
 const formRef = ref()
 
 const userPasswordInfo = ref({
@@ -56,7 +58,13 @@ const submit = async () => {
       try {
         const result = await userPasswordUpdateService(userPasswordInfo.value)
         ElMessage.success(result.message || '修改密码成功')
-        userPasswordInfo.value = { oldPwd: '', newPwd: '', rePwd: '' }
+        
+        setTimeout(() => {
+          tokenStore.removeToken()
+          userInfoStore.removeInfo()
+          userPasswordInfo.value = { oldPwd: '', newPwd: '', rePwd: '' }
+          router.push('/login')
+        }, 1000)
       } catch (error) {
         console.error('修改密码失败:', error)
       }
