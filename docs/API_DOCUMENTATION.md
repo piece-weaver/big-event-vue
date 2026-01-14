@@ -1037,7 +1037,7 @@ file: [binary file data]
 {
   "code": 0,
   "message": "操作成功",
-  "data": "https://big-event-demo-123.oss-cn-beijing.aliyuncs.com/abc123-def456.jpg"
+  "data": "https://big-event-demo-123.oss-cn-beijing.aliyuncs.com/default_article_cover.png"
 }
 ```
 
