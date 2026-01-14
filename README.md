@@ -4,6 +4,13 @@
 
 大事件（Big Event）是一个基于Vue 3 + Vite的内容管理系统前端项目，提供用户管理、文章发布、分类管理等功能。项目严格按照后端API文档规范开发，确保前后端数据交互的一致性和完整性。
 
+效果图展示：
+<img src="https://big-event-demo-123.oss-cn-beijing.aliyuncs.com/big_event_cover.png" alt="登录页面" style="zoom:50%;" />
+
+<img src="https://big-event-demo-123.oss-cn-beijing.aliyuncs.com/big_event_cover_article.png" alt="文章页面" style="zoom:50%;" />
+
+<img src="https://big-event-demo-123.oss-cn-beijing.aliyuncs.com/big_event_cover_category.png" alt="分类页面" style="zoom:50%;" />
+
 ## 技术栈
 
 - **框架**: Vue 3.5.13
