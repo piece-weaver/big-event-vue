@@ -1,0 +1,82 @@
+export const API_BASE_URL = '/api'
+
+export const HTTP_STATUS = {
+  SUCCESS: 0,
+  ERROR: 1,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  SERVER_ERROR: 500
+}
+
+export const ERROR_CODE = {
+  SUCCESS: 0,
+  ERROR: 1,
+  USERNAME_EXISTS: 1001,
+  INVALID_CREDENTIALS: 1002,
+  NOT_LOGGED_IN: 1003,
+  TOKEN_EXPIRED: 1004,
+  OLD_PASSWORD_ERROR: 1006,
+  NEW_PASSWORD_SAME_AS_OLD: 1007,
+  NEW_PASSWORD_MISMATCH: 1008,
+  CATEGORY_NOT_FOUND: 2001,
+  CATEGORY_HAS_ARTICLES: 2002,
+  ARTICLE_NOT_FOUND: 2003,
+  UPLOAD_FAILED: 3001,
+  UNSUPPORTED_FORMAT: 3002,
+  REQUIRED_PARAM_EMPTY: 4002,
+  PARAM_FORMAT_ERROR: 4003
+}
+
+export const PAGINATION = {
+  DEFAULT_PAGE_SIZE: 10,
+  MAX_PAGE_SIZE: 100,
+  PAGE_SIZES: [5, 10, 15, 20]
+}
+
+export const VALIDATION = {
+  USERNAME: {
+    MIN: 5,
+    MAX: 16
+  },
+  PASSWORD: {
+    MIN: 5,
+    MAX: 16
+  },
+  NICKNAME: {
+    MIN: 1,
+    MAX: 10
+  },
+  CATEGORY_NAME: {
+    MIN: 1,
+    MAX: 50
+  },
+  CATEGORY_ALIAS: {
+    MIN: 1,
+    MAX: 50
+  },
+  ARTICLE_TITLE: {
+    MIN: 1,
+    MAX: 100
+  }
+}
+
+export const STORAGE_KEYS = {
+  TOKEN: 'token',
+  USER_INFO: 'userInfo'
+}
+
+export const ARTICLE_STATE = {
+  DRAFT: 0,
+  PUBLISHED: 1
+}
+
+export const ARTICLE_STATE_TEXT = {
+  [ARTICLE_STATE.DRAFT]: '草稿',
+  [ARTICLE_STATE.PUBLISHED]: '已发布'
+}
+
+export const ARTICLE_STATE_OPTIONS = [
+  { label: '已发布', value: ARTICLE_STATE.PUBLISHED },
+  { label: '草稿', value: ARTICLE_STATE.DRAFT }
+]
