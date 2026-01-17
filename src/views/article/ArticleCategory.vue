@@ -90,6 +90,7 @@ const addCategory = async () => {
                 articleCategoryList()
             } catch (error) {
                 console.error('添加分类失败:', error)
+                ElMessage.error(error.response?.data?.message || '添加分类失败')
             } finally {
                 submitLoading.value = false
             }
@@ -114,6 +115,7 @@ const updateCategory = async () => {
                 articleCategoryList()
             } catch (error) {
                 console.error('修改分类失败:', error)
+                ElMessage.error(error.response?.data?.message || '修改分类失败')
             } finally {
                 submitLoading.value = false
             }
@@ -158,6 +160,7 @@ const deleteCategory = (row) => {
                 articleCategoryList()
             } catch (error) {
                 console.error('删除分类失败:', error)
+                ElMessage.error(error.response?.data?.message || '删除分类失败')
             }
         })
         .catch(() => {

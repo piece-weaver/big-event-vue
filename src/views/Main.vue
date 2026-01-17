@@ -1,4 +1,7 @@
 <script setup>
+import { ref, computed, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import {
     Management,
     Promotion,
@@ -12,22 +15,28 @@ import {
     Expand
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/images/default.png'
-import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
 
 import { userInfoService } from '@/api/user.js'
 import useUserInfoStore from '@/stores/userInfo.js'
+import { useTokenStore } from '@/stores/token.js'
 
 import SidebarLogo from '@/components/Layout/SidebarLogo.vue'
 import Breadcrumb from '@/components/Layout/Breadcrumb.vue'
+import TagsView from '@/components/Layout/TagsView.vue'
 
 const route = useRoute()
+const router = useRouter()
 const userInfoStore = useUserInfoStore()
+const tokenStore = useTokenStore()
 
 const isCollapse = ref(false)
 const sidebarVisible = ref(false)
 
-const userInfoStoreInfo = userInfoStore.Info
+const userInfoStoreInfo = computed(() => userInfoStore.Info)
+
+const currentPageTitle = computed(() => {
+    return route.meta.title || ''
+})
 
 const getUserInfo = async () => {
     try {
@@ -38,18 +47,22 @@ const getUserInfo = async () => {
     }
 }
 
-getUserInfo()
+const fetchUserInfoIfNeeded = async () => {
+    if (!userInfoStore.Info || !userInfoStore.Info.id) {
+        await getUserInfo()
+    }
+}
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { useRouter } from 'vue-router'
-import { useTokenStore } from '@/stores/token.js'
+fetchUserInfoIfNeeded()
 
-const router = useRouter()
-const tokenStore = useTokenStore()
-
-const currentPageTitle = computed(() => {
-    return route.meta.title || ''
-})
+watch(
+    () => route.path,
+    (newPath, oldPath) => {
+        if (oldPath === '/login' && newPath !== '/login') {
+            getUserInfo()
+        }
+    }
+)
 
 const toggleSidebar = () => {
     isCollapse.value = !isCollapse.value
@@ -100,14 +113,12 @@ const handleCommand = (command) => {
 
 <template>
     <div class="layout-container" :class="{ 'is-collapse': isCollapse }">
-        <!-- 侧边栏遮罩层（移动端） -->
         <div
             v-if="sidebarVisible"
             class="sidebar-overlay"
             @click="closeMobileSidebar"
         />
 
-        <!-- 左侧菜单 -->
         <el-aside class="sidebar" :class="{ 'is-visible': sidebarVisible }">
             <SidebarLogo
                 :logo="''"
@@ -115,7 +126,7 @@ const handleCommand = (command) => {
                 :is-collapsed="isCollapse"
             />
             <el-menu
-                :default-active="route.path"
+                :default-active="route.fullPath"
                 :collapse="isCollapse"
                 background-color="#232323"
                 text-color="#bfcbd9"
@@ -164,72 +175,69 @@ const handleCommand = (command) => {
             </el-menu>
         </el-aside>
 
-        <!-- 右侧主区域 -->
         <el-container class="main-container">
-            <!-- 头部区域 -->
             <el-header class="header">
-                <div class="header-left">
-                    <el-button
-                        class="sidebar-toggle"
-                        :icon="isCollapse ? Expand : Fold"
-                        text
-                        @click="toggleSidebar"
-                    />
-                    <el-button
-                        class="mobile-sidebar-toggle"
-                        :icon="Management"
-                        text
-                        @click="toggleMobileSidebar"
-                    />
-                    <Breadcrumb />
-                </div>
-                <div class="header-right">
-                    <div class="user-info">
-                        <span class="welcome-text">你好，<strong class="nickname">{{ userInfoStoreInfo.nickname || '用户' }}</strong></span>
+                <div class="header-top">
+                    <div class="header-left">
+                        <el-button
+                            class="sidebar-toggle"
+                            :icon="isCollapse ? Expand : Fold"
+                            text
+                            @click="toggleSidebar"
+                        />
+                        <el-button
+                            class="mobile-sidebar-toggle"
+                            :icon="Management"
+                            text
+                            @click="toggleMobileSidebar"
+                        />
+                        <Breadcrumb />
                     </div>
-                    <el-dropdown placement="bottom-end" @command="handleCommand">
-                        <span class="user-dropdown-trigger">
-                            <el-avatar
-                                :src="userInfoStoreInfo.userPic ? userInfoStoreInfo.userPic : avatar"
-                                :size="36"
-                                class="user-avatar"
-                            />
-                            <el-icon class="dropdown-icon">
-                                <CaretBottom />
-                            </el-icon>
-                        </span>
-                        <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item command="info" :icon="User">
-                                    基本资料
-                                </el-dropdown-item>
-                                <el-dropdown-item command="avatar" :icon="Crop">
-                                    更换头像
-                                </el-dropdown-item>
-                                <el-dropdown-item command="resetpassword" :icon="EditPen">
-                                    重置密码
-                                </el-dropdown-item>
-                                <el-dropdown-item command="logout" :icon="SwitchButton" divided>
-                                    退出登录
-                                </el-dropdown-item>
-                            </el-dropdown-menu>
-                        </template>
-                    </el-dropdown>
+                    <div class="header-right">
+                        <div class="user-info">
+                            <span class="welcome-text">你好，<strong class="nickname">{{ userInfoStoreInfo.nickname || '用户' }}</strong></span>
+                        </div>
+                        <el-dropdown placement="bottom-end" @command="handleCommand">
+                            <span class="user-dropdown-trigger">
+                                <el-avatar
+                                    :src="userInfoStoreInfo.userPic ? userInfoStoreInfo.userPic : avatar"
+                                    :size="36"
+                                    class="user-avatar"
+                                />
+                                <el-icon class="dropdown-icon">
+                                    <CaretBottom />
+                                </el-icon>
+                            </span>
+                            <template #dropdown>
+                                <el-dropdown-menu>
+                                    <el-dropdown-item command="info" :icon="User">
+                                        基本资料
+                                    </el-dropdown-item>
+                                    <el-dropdown-item command="avatar" :icon="Crop">
+                                        更换头像
+                                    </el-dropdown-item>
+                                    <el-dropdown-item command="resetpassword" :icon="EditPen">
+                                        重置密码
+                                    </el-dropdown-item>
+                                    <el-dropdown-item command="logout" :icon="SwitchButton" divided>
+                                        退出登录
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                            </template>
+                        </el-dropdown>
+                    </div>
                 </div>
+                <TagsView />
             </el-header>
 
-            <!-- 主内容区域 -->
             <el-main class="main-content">
                 <div class="page-wrapper">
-                    <transition name="fade-slide" mode="out-in">
-                        <router-view :key="route.path" />
-                    </transition>
+                    <router-view />
                 </div>
             </el-main>
 
-            <!-- 底部区域 -->
             <el-footer class="footer">
-                <span class="footer-text">大事件管理系统 © {{ new Date().getFullYear() }} Created by 黑马程序员</span>
+                <span class="footer-text">大事件管理系统 &copy; {{ new Date().getFullYear() }} Created by piece-weaver</span>
             </el-footer>
         </el-container>
     </div>
@@ -245,7 +253,6 @@ const handleCommand = (command) => {
     background-color: $bg-color;
 }
 
-// 侧边栏样式
 .sidebar {
     width: $sidebar-width;
     background-color: $sidebar-bg-color;
@@ -329,7 +336,6 @@ const handleCommand = (command) => {
     }
 }
 
-// 折叠状态
 .layout-container.is-collapse {
     .sidebar {
         width: $sidebar-width-collapsed;
@@ -340,7 +346,6 @@ const handleCommand = (command) => {
     }
 }
 
-// 主容器样式
 .main-container {
     flex: 1;
     display: flex;
@@ -349,16 +354,23 @@ const handleCommand = (command) => {
     min-width: 0;
 }
 
-// 头部样式
 .header {
-    height: $header-height;
+    height: auto;
+    min-height: $header-height;
     background-color: $header-bg-color;
     border-bottom: 1px solid $header-border-color;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 0 $spacing-lg;
     flex-shrink: 0;
+
+    .header-top {
+        height: $header-height;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
 
     .header-left {
         display: flex;
@@ -447,7 +459,6 @@ const handleCommand = (command) => {
     @include header-mobile;
 }
 
-// 主内容区域样式
 .main-content {
     flex: 1;
     overflow: hidden;
@@ -462,7 +473,6 @@ const handleCommand = (command) => {
     overflow: auto;
 }
 
-// 底部样式
 .footer {
     height: $footer-height;
     background-color: $footer-bg-color;
@@ -482,22 +492,6 @@ const handleCommand = (command) => {
     }
 }
 
-// 过渡动画
-.fade-slide-enter-active,
-.fade-slide-leave-active {
-    transition: all $transition-duration-base;
-}
-
-.fade-slide-enter-from {
-    transform: translateX(-20px);
-    opacity: 0;
-}
-
-.fade-slide-leave-to {
-    transform: translateX(20px);
-    opacity: 0;
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -507,7 +501,6 @@ const handleCommand = (command) => {
     }
 }
 
-// 响应式适配
 @include mobile-only {
     .header {
         padding: 0 $spacing-md;

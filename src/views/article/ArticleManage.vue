@@ -172,6 +172,7 @@ const saveArticle = async (articleState) => {
                 articleList()
             } catch (error) {
                 console.error('保存文章失败:', error)
+                ElMessage.error(error.response?.data?.message || '保存文章失败')
             } finally {
                 submitLoading.value = false
             }
@@ -199,6 +200,7 @@ const deleteArticle = (row) => {
                 articleList()
             } catch (error) {
                 console.error('删除文章失败:', error)
+                ElMessage.error(error.response?.data?.message || '删除文章失败')
             }
         })
         .catch(() => {
