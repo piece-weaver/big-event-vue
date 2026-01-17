@@ -7,15 +7,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
-.DS_Store
+.pnp
+.pnp.js
+
+# Build
 dist
 dist-ssr
-coverage
 *.local
-
-/cypress/videos/
-/cypress/screenshots/
 
 # Editor directories and files
 .vscode/*
@@ -26,5 +26,21 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-
 *.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test
+coverage
+*.lcov
+.nyc_output
+
+# Misc
+*.pem

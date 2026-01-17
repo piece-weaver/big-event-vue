@@ -1,0 +1,356 @@
+// ===========================================
+// Design Tokens - 设计变量系统
+// ===========================================
+
+// ===========================================
+// 颜色系统
+// ===========================================
+
+// 主色调
+$primary-color: #409eff;
+$primary-light: #66b1ff;
+$primary-dark: #337ecc;
+
+// 辅助色
+$success-color: #67c23a;
+$success-light: #85ce61;
+$success-dark: #529e2c;
+
+$warning-color: #e6a23c;
+$warning-light: #ebb563;
+$warning-dark: #cf9236;
+
+$danger-color: #f56c6c;
+$danger-light: #f78989;
+$danger-dark: #dd6161;
+
+$info-color: #909399;
+$info-light: #a6a9ad;
+$info-dark: #73767a;
+
+// 中性色
+$white: #ffffff;
+$black: #000000;
+
+$gray-50: #fafafa;
+$gray-100: #f5f7fa;
+$gray-200: #e4e7ed;
+$gray-300: #dcdfe6;
+$gray-400: #c0c4cc;
+$gray-500: #a0a4a8;
+$gray-600: #808689;
+$gray-700: #606266;
+$gray-800: #303133;
+$gray-900: #1d1e23;
+
+// 文字颜色
+$text-primary: #303133;
+$text-regular: #606266;
+$text-secondary: #909399;
+$text-placeholder: #c0c4cc;
+
+// 边框颜色
+$border-color: #dcdfe6;
+$border-color-light: #e4e7ed;
+$border-color-lighter: #ebeef5;
+
+// 背景颜色
+$bg-color: #f5f7fa;
+$bg-color-overlay: #ffffff;
+
+// ===========================================
+// 字体系统
+// ===========================================
+
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+  'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+  'Noto Color Emoji';
+
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-base: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-2xl: 24px;
+
+$font-weight-primary: 400;
+$font-weight-secondary: 500;
+$font-weight-bold: 600;
+
+$line-height-primary: 1.5;
+$line-height-secondary: 1.75;
+
+// ===========================================
+// 布局系统
+// ===========================================
+
+// 侧边栏
+$sidebar-width: 220px;
+$sidebar-width-collapsed: 64px;
+$sidebar-bg-color: #232323;
+$sidebar-text-color: #bfcbd9;
+$sidebar-active-color: #409eff;
+$sidebar-hover-color: #2a2d32;
+
+// 头部
+$header-height: 60px;
+$header-bg-color: #ffffff;
+$header-border-color: #e6e6e6;
+
+// 内容区
+$main-padding: 20px;
+
+// 底部
+$footer-height: 50px;
+$footer-bg-color: #ffffff;
+$footer-text-color: #606266;
+
+// ===========================================
+// 间距系统
+// ===========================================
+
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 40px;
+
+// 标准间距
+$spacing-0: 0;
+$spacing-1: 4px;
+$spacing-2: 8px;
+$spacing-3: 12px;
+$spacing-4: 16px;
+$spacing-5: 20px;
+$spacing-6: 24px;
+$spacing-8: 32px;
+$spacing-10: 40px;
+
+// ===========================================
+// 边框系统
+// ===========================================
+
+$border-radius-base: 4px;
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+$border-radius-lg: 8px;
+$border-radius-xl: 12px;
+$border-radius-circle: 50%;
+$border-radius-full: 9999px;
+
+$border-width: 1px;
+$border-width-bold: 2px;
+
+// ===========================================
+// 阴影系统
+// ===========================================
+
+$box-shadow-base: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+$box-shadow-light: 0 2px 12px rgba(0, 0, 0, 0.1);
+$box-shadow-lighter: 0 4px 16px rgba(0, 0, 0, 0.08);
+$box-shadow-dark: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+// ===========================================
+// 过渡动画
+// ===========================================
+
+$transition-duration-fast: 0.2s;
+$transition-duration-base: 0.3s;
+$transition-duration-slow: 0.5s;
+
+$transition-function-ease: ease;
+$transition-function-linear: linear;
+$transition-function-ease-in: ease-in;
+$transition-function-ease-out: ease-out;
+$transition-function-ease-in-out: ease-in-out;
+
+// ===========================================
+// z-index 层级
+// ===========================================
+
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+$z-index-notification: 1080;
+
+// ===========================================
+// 响应式断点
+// ===========================================
+
+$breakpoint-xs: 0;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-2xl: 1920px;
+
+// ===========================================
+// 响应式混合宏
+// ===========================================
+
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: $breakpoint-md) and (max-width: #{$breakpoint-lg - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop-only {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin wide-screen-only {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin dialog-mobile {
+  @include mobile-only {
+    width: 90% !important;
+    margin: 0 auto;
+  }
+}
+
+@mixin drawer-mobile {
+  @include mobile-only {
+    width: 90% !important;
+  }
+}
+
+@mixin form-mobile {
+  @include mobile-only {
+    .el-form-item {
+      margin-bottom: $spacing-md;
+    }
+
+    .el-form-item__label {
+      width: 100% !important;
+      float: none;
+      margin-bottom: $spacing-xs;
+    }
+
+    .el-form-item__content {
+      margin-left: 0 !important;
+    }
+  }
+}
+
+@mixin sidebar-mobile {
+  @include mobile-only {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: $z-index-fixed;
+    width: $sidebar-width;
+    background-color: $sidebar-bg-color;
+    transform: translateX(-100%);
+    transition: transform $transition-duration-base $transition-function-ease-in-out;
+
+    &.is-open {
+      transform: translateX(0);
+    }
+  }
+}
+
+// 侧边栏遮罩层
+@mixin sidebar-overlay {
+  @include mobile-only {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: ($z-index-fixed - 1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all $transition-duration-base;
+
+    &.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+// 头部响应式
+@mixin header-mobile {
+  @include mobile-only {
+    padding: 0 $spacing-md;
+  }
+}
+
+@mixin header-desktop {
+  @include respond-above('md') {
+    padding: 0 $spacing-lg;
+  }
+}
+
+// 内容区域响应式
+@mixin main-mobile {
+  @include mobile-only {
+    padding: $spacing-md;
+  }
+}
+
+@mixin main-desktop {
+  @include respond-above('md') {
+    padding: $spacing-lg;
+  }
+}
+
+// 表格响应式
+@mixin table-mobile {
+  @include mobile-only {
+    .el-table {
+      width: 100%;
+
+      .cell {
+        word-break: break-all;
+      }
+    }
+  }
+}
+
+// 最小宽度断点（向上兼容）
+@mixin respond-above($breakpoint) {
+  $breakpoint-value: if($breakpoint == 'xs', 0, map-get((sm: 576px, md: 768px, lg: 992px, xl: 1200px, 2xl: 1920px), $breakpoint));
+
+  @media (min-width: $breakpoint-value) {
+    @content;
+  }
+}
+
+// 最大宽度断点（向下兼容）
+@mixin respond-below($breakpoint) {
+  $breakpoint-value: map-get((sm: 575px, md: 767px, lg: 991px, xl: 1199px, 2xl: 1919px), $breakpoint);
+
+  @media (max-width: $breakpoint-value) {
+    @content;
+  }
+}
+
+// 区间断点
+@mixin respond-between($lower, $upper) {
+  $lower-value: map-get((sm: 576px, md: 768px, lg: 992px, xl: 1200px, 2xl: 1920px), $lower);
+  $upper-value: map-get((sm: 575px, md: 767px, lg: 991px, xl: 1199px, 2xl: 1919px), $upper);
+
+  @media (min-width: $lower-value) and (max-width: $upper-value) {
+    @content;
+  }
+}
