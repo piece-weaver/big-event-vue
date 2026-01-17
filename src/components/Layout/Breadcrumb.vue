@@ -1,7 +1,7 @@
 <template>
   <div class="breadcrumb-nav-container">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">
+      <el-breadcrumb-item :to="{ path: '/home' }">
         <el-icon class="breadcrumb-icon"><HomeFilled /></el-icon>
         <span>首页</span>
       </el-breadcrumb-item>

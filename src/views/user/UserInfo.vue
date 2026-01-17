@@ -30,11 +30,16 @@ const updateInfo = async () => {
         if (valid) {
             submitting.value = true
             try {
-                const result = await userInfoUpdateService(userInfo.value)
+                const result = await userInfoUpdateService({
+                    id: userInfo.value.id,
+                    nickname: userInfo.value.nickname,
+                    email: userInfo.value.email
+                })
                 ElMessage.success(result.message || '修改成功')
                 userInfoStore.setInfo(userInfo.value)
             } catch (error) {
                 console.error('修改失败:', error)
+                ElMessage.error(error.response?.data?.message || '修改失败')
             } finally {
                 submitting.value = false
             }

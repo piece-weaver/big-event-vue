@@ -32,6 +32,7 @@ const updateAvatar = async () => {
         userInfoStore.Info.userPic = imgUrl.value
     } catch (error) {
         console.error('头像更新失败:', error)
+        ElMessage.error(error.response?.data?.message || '头像更新失败')
     } finally {
         loading.value = false
     }

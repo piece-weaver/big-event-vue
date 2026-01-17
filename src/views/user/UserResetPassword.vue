@@ -106,6 +106,7 @@ const submit = async () => {
                 }, 1000)
             } catch (error) {
                 console.error('修改密码失败:', error)
+                ElMessage.error(error.response?.data?.message || '修改密码失败')
             } finally {
                 loading.value = false
             }
