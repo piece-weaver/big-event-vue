@@ -237,7 +237,7 @@ const handleCommand = (command) => {
             </el-main>
 
             <el-footer class="footer">
-                <span class="footer-text">大事件管理系统 &copy; {{ new Date().getFullYear() }} Created by 黑马程序员</span>
+                <span class="footer-text">大事件管理系统 &copy; {{ new Date().getFullYear() }} Created by piece-weaver</span>
             </el-footer>
         </el-container>
     </div>
