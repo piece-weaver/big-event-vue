@@ -1,0 +1,323 @@
+// ===========================================
+// Breakpoints - 响应式断点系统
+// ===========================================
+
+@use 'sass:map';
+
+// 断点定义
+$breakpoint-xs: 0;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-2xl: 1920px;
+
+// 断点名称映射
+$breakpoints: (
+  'xs': $breakpoint-xs,
+  'sm': $breakpoint-sm,
+  'md': $breakpoint-md,
+  'lg': $breakpoint-lg,
+  'xl': $breakpoint-xl,
+  '2xl': $breakpoint-2xl
+);
+
+// 间距变量（用于混合宏）
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// 侧边栏变量
+$sidebar-width: 220px;
+$sidebar-bg-color: #232323;
+$sidebar-text-color: #bfcbd9;
+$sidebar-active-color: #409eff;
+$sidebar-hover-color: #2a2d32;
+
+// z-index 层级
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+$z-index-notification: 1080;
+
+// 过渡动画
+$transition-duration-fast: 0.2s;
+$transition-duration-base: 0.3s;
+$transition-duration-slow: 0.5s;
+$transition-function-ease: ease;
+$transition-function-ease-in-out: ease-in-out;
+
+// ===========================================
+// 响应式混合宏
+// ===========================================
+
+// 最小宽度断点（向上兼容）
+@mixin respond-above($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
+  } @else {
+    @warn 'Unknown breakpoint: #{$breakpoint}';
+  }
+}
+
+// 最大宽度断点（向下兼容）
+@mixin respond-below($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    @media (max-width: ($breakpoint-value - 1px)) {
+      @content;
+    }
+  } @else {
+    @warn 'Unknown breakpoint: #{$breakpoint}';
+  }
+}
+
+// 区间断点
+@mixin respond-between($lower, $upper) {
+  @if map-has-key($breakpoints, $lower) and map-has-key($breakpoints, $upper) {
+    $lower-value: map-get($breakpoints, $lower);
+    $upper-value: map-get($breakpoints, $upper);
+
+    @media (min-width: $lower-value) and (max-width: ($upper-value - 1px)) {
+      @content;
+    }
+  } @else {
+    @warn 'Unknown breakpoints: #{$lower} or #{$upper}';
+  }
+}
+
+// ===========================================
+// 设备类型检测
+// ===========================================
+
+// 移动设备（Portrait）
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+// 平板设备（Portrait）
+@mixin tablet-only {
+  @media (min-width: $breakpoint-md) and (max-width: #{$breakpoint-lg - 1px}) {
+    @content;
+  }
+}
+
+// 桌面设备
+@mixin desktop-only {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+// 大屏幕设备
+@mixin wide-screen-only {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+// ===========================================
+// 响应式工具类
+// ===========================================
+
+// 隐藏元素（仅在特定断点）
+@mixin hide-xs {
+  @include respond-below('sm') {
+    display: none !important;
+  }
+}
+
+@mixin hide-sm {
+  @include respond-between('sm', 'md') {
+    display: none !important;
+  }
+}
+
+@mixin hide-md {
+  @include respond-between('md', 'lg') {
+    display: none !important;
+  }
+}
+
+@mixin hide-lg {
+  @include respond-between('lg', 'xl') {
+    display: none !important;
+  }
+}
+
+@mixin hide-xl {
+  @include respond-above('xl') {
+    display: none !important;
+  }
+}
+
+// 显示元素（仅在特定断点）
+@mixin show-xs-only {
+  @include respond-above('sm') {
+    display: none !important;
+  }
+}
+
+@mixin show-sm-only {
+  @include respond-below('sm') {
+    display: none !important;
+  }
+
+  @include respond-above('md') {
+    display: none !important;
+  }
+}
+
+@mixin show-md-only {
+  @include respond-below('md') {
+    display: none !important;
+  }
+
+  @include respond-above('lg') {
+    display: none !important;
+  }
+}
+
+// ===========================================
+// 侧边栏响应式
+// ===========================================
+
+// 侧边栏移动端样式
+@mixin sidebar-mobile {
+  @include mobile-only {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: $z-index-fixed;
+    width: $sidebar-width;
+    background-color: $sidebar-bg-color;
+    transform: translateX(-100%);
+    transition: transform $transition-duration-base $transition-function-ease-in-out;
+
+    &.is-open {
+      transform: translateX(0);
+    }
+  }
+}
+
+// 侧边栏遮罩层
+@mixin sidebar-overlay {
+  @include mobile-only {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: ($z-index-fixed - 1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all $transition-duration-base;
+
+    &.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+// ===========================================
+// 头部响应式
+// ===========================================
+
+@mixin header-mobile {
+  @include mobile-only {
+    padding: 0 $spacing-md;
+  }
+}
+
+@mixin header-desktop {
+  @include respond-above('md') {
+    padding: 0 $spacing-lg;
+  }
+}
+
+// ===========================================
+// 内容区域响应式
+// ===========================================
+
+@mixin main-mobile {
+  @include mobile-only {
+    padding: $spacing-md;
+  }
+}
+
+@mixin main-desktop {
+  @include respond-above('md') {
+    padding: $spacing-lg;
+  }
+}
+
+// ===========================================
+// 表格响应式
+// ===========================================
+
+@mixin table-mobile {
+  @include mobile-only {
+    .el-table {
+      width: 100%;
+
+      .cell {
+        word-break: break-all;
+      }
+    }
+  }
+}
+
+// ===========================================
+// 表单响应式
+// ===========================================
+
+@mixin form-mobile {
+  @include mobile-only {
+    .el-form-item {
+      margin-bottom: $spacing-md;
+    }
+
+    .el-form-item__label {
+      width: 100% !important;
+      float: none;
+      margin-bottom: $spacing-xs;
+    }
+
+    .el-form-item__content {
+      margin-left: 0 !important;
+    }
+  }
+}
+
+// ===========================================
+// 对话框响应式
+// ===========================================
+
+@mixin dialog-mobile {
+  @include mobile-only {
+    width: 90% !important;
+    margin: 0 auto;
+  }
+}
+
+@mixin drawer-mobile {
+  @include mobile-only {
+    width: 85% !important;
+  }
+}
